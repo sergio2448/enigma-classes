@@ -1,4 +1,3 @@
 class citas():
-
-  def algo():
+  def generar_id():
     pass
