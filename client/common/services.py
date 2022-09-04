@@ -18,7 +18,7 @@ class CRUDService(abc.ABC):
     with open(self.table_name, mode='r') as f:
       reader = csv.DictReader(f, fieldnames=schema)
 
-      return read(reader)
+      return list(reader)
 
 
   def update(self, updated_row, schema):
