@@ -16,4 +16,4 @@ class HospitalizationService(CRUDService):
     self.update(updated_hospitalization.to_dict(), Hospitalization.schema()) #revisar
 
   def delete_hospitalization(self, hospitalization_uid):
-    self.delete(hospitalization_uid,Hospitalization.schema())
+    self.delete(hospitalization_uid, Hospitalization.schema())
