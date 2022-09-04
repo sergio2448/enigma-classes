@@ -49,7 +49,7 @@ def read(ctx):
   doctors = doctor_service.read_doctors()
 
   click.echo('ID | Name | Email | CC | Gender | Specialty')
-  click.echo('-' * 100)
+  click.echo('-' * 80)
   for doctor in doctors:
     click.echo('{uid} | {name} | {email} | {cc} | {gender} | {specialty}'.format(
       uid=doctor['uid'],

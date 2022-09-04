@@ -53,7 +53,7 @@ def read(ctx):
   users = user_service.read_users()
 
   click.echo('ID | Name | Email | CC | Gender | EPS | State')
-  click.echo('-' * 100)
+  click.echo('-' * 80)
   for user in users:
     click.echo('{uid} | {name} | {email} | {cc} | {state}'.format(
       uid=user['uid'],
