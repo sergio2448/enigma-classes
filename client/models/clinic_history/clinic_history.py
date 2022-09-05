@@ -1,7 +1,10 @@
-class ClinicHistory:
-    def __init__(self, user_id):
-        self.user_id = user_id
+from client.common.generate_id import Id
+class ClinicHistory(Id):
 
-    @staticmethod
-    def schema():
-        return ['id', 'user_id', 'cc', 'name', 'eps', 'state', 'appoinments'] #appointments es dict
+  def __init__(self, user_id, uid=None):
+    super().__init__(uid)
+    self.user_id = user_id
+
+  @staticmethod
+  def schema():
+    return ['user_id', 'uid'] #appointments es dict

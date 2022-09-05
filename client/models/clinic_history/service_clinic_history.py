@@ -6,14 +6,14 @@ class ClinicHistoryService(CRUDService):
   def __init__(self, table_name):
     super().__init__(table_name)
 
-  def create_clinic_history(self,user_id):
-    self.create(user_id.to_dict(), ClinicHistory.schema())
+  def create_clinic_history(self, clinic_history):
+    self.create(clinic_history.to_dict(), ClinicHistory.schema())
 
-  def read_users(self):
+  def read_clinic_histories(self):
     return self.read(ClinicHistory.schema())
 
-  def update_user(self, updated_user):
-    self.update(updated_user.to_dict(), ClinicHistory.schema()) #revisar
+  def update_clinic_history(self, updated_clinic_history):
+    self.update(updated_clinic_history.to_dict(), ClinicHistory.schema()) #revisar
 
-  def delete_user(self, user_uid):
-    self.delete(user_uid, ClinicHistory.schema())
+  def delete_clinic_history(self, clinic_history_uid):
+    self.delete(clinic_history_uid, ClinicHistory.schema())
