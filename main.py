@@ -5,9 +5,9 @@ from client.commands import users_commands, doctors_commands, hospitalizations_c
 USERS_TABLE = '.users.csv'
 DOCTORS_TABLE = '.doctors.csv'
 HOSPITALIZATIONS_TABLE = '.hospitalizations.csv'
-APPOINTMENTS_TABLE = 'appointments.csv'
-MEDICINES_TABLE = 'medicines.csv'
-CLINIC_HISTORIES_TABLE = 'clinic_histories.csv'
+APPOINTMENTS_TABLE = '.appointments.csv'
+MEDICINES_TABLE = '.medicines.csv'
+CLINIC_HISTORIES_TABLE = '.clinic_histories.csv'
 
 @click.group()
 def tables():
