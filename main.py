@@ -1,12 +1,13 @@
 import click
 
-from client.commands import users_commands, doctors_commands, hospitalizations_commands, appointments_commands, medicines_commands
+from client.commands import users_commands, doctors_commands, hospitalizations_commands, appointments_commands, medicines_commands, clinic_histories_commands
 
 USERS_TABLE = '.users.csv'
 DOCTORS_TABLE = '.doctors.csv'
 HOSPITALIZATIONS_TABLE = '.hospitalizations.csv'
 APPOINTMENTS_TABLE = 'appointments.csv'
 MEDICINES_TABLE = 'medicines.csv'
+CLINIC_HISTORIES_TABLE = 'clinic_histories.csv'
 
 @click.group()
 def tables():
@@ -52,6 +53,14 @@ def md(ctx):
   ctx.obj = {}
   ctx.obj['medicines_table'] = MEDICINES_TABLE
 md.add_command(medicines_commands.all)
+
+@tables.group()
+@click.pass_context
+def hc(ctx):
+  """Opciones tabla de Historias clinicas."""
+  ctx.obj = {}
+  ctx.obj['clinic_histories_table'] = CLINIC_HISTORIES_TABLE
+hc.add_command(clinic_histories_commands.all)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,13 @@
+# Byte-compiled
+__pycache__/
+
+# Environment
+venv/
+
+# Tables
 .users.csv
 .doctors.csv
 .hospitalizations.csv
 .appointments.csv
 .medicines.csv
+.clinic_histories.csv
