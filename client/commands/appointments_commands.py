@@ -2,7 +2,11 @@ import click
 
 from client.models.attention.services.service_appointments import AppointmentService
 from client.models.attention.appointments import Appointment
+from client.models.people.services.service_users import UserService
+from client.models.people.services.service_doctor import DoctorService
 
+USERS_TABLE = '.users.csv'
+DOCTORS_TABLE = '.doctors.csv'
 
 @click.group()
 def appointments():
@@ -46,10 +50,28 @@ def appointments():
 @click.pass_context
 def create(ctx, user_id, doctor_id, date, time, place, reason, prescription, state):
   """Crea una nueva cita"""
-  appointment = Appointment(user_id, doctor_id, date, time, place, reason, prescription, state)
-  appointment_service = AppointmentService(ctx.obj['appointments_table'])
+  
+  user_service = UserService(USERS_TABLE)
+  user = [user for user in user_service.read_users() if user['uid'] == user_id]
 
-  appointment_service.create_appointment(appointment)
+  doctor_service = DoctorService(DOCTORS_TABLE)
+  doctor = [doctor for doctor in doctor_service.read_doctors() if doctor['uid'] == doctor_id]
+
+  if not(user):
+    click.echo("Id de usuario no valido")
+
+  elif not(doctor):
+    click.echo("Id de doctor no valido")
+
+  else:
+    appointment = Appointment(user_id, doctor_id, date, time, place, reason, prescription, state)
+    appointment_service = AppointmentService(ctx.obj['appointments_table'])
+
+    appointment_service.create_appointment(appointment)
+
+
+
+  
 
 
 @appointments.command()

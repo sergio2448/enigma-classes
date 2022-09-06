@@ -2,7 +2,9 @@ import click
 
 from client.models.clinic_history.service_clinic_history import ClinicHistoryService
 from client.models.clinic_history.clinic_history import ClinicHistory
+from client.models.people.services.service_users import UserService
 
+USERS_TABLE = '.users.csv'
 
 @click.group()
 def clinic_histories():
@@ -18,10 +20,18 @@ def clinic_histories():
 @click.pass_context
 def create(ctx, user_id):
   """Registra una nueva historia clinica"""
-  clinic_history = ClinicHistory(user_id)
-  clinic_history_service = ClinicHistoryService(ctx.obj['clinic_histories_table'])
 
-  clinic_history_service.create_clinic_history(clinic_history)
+  user_service = UserService(USERS_TABLE)
+  user = [user for user in user_service.read_users() if user['uid'] == user_id]
+
+
+  if user:
+    clinic_history = ClinicHistory(user_id)
+    clinic_history_service = ClinicHistoryService(ctx.obj['clinic_histories_table'])
+
+    clinic_history_service.create_clinic_history(clinic_history)
+  else:
+    click.echo("Id de usuario no valido")
 
 
 @clinic_histories.command()

@@ -2,7 +2,9 @@ import click
 
 from client.models.attention.services.service_hospitalizations import HospitalizationService
 from client.models.attention.hospitalizations import Hospitalization
+from client.models.people.services.service_users import UserService
 
+USERS_TABLE = '.users.csv'
 
 @click.group()
 def hospitalizations():
@@ -26,11 +28,19 @@ def hospitalizations():
 @click.pass_context
 def create(ctx, user_id, date_init, date_finish):
   """Crea una nueva hospitalizacion"""
-  hospitalization = Hospitalization(user_id, date_init, date_finish)
-  hospitalization_service = HospitalizationService(ctx.obj['hospitalizations_table'])
 
-  hospitalization_service.create_hospitalization(hospitalization)
+  user_service = UserService(USERS_TABLE)
+  user = [user for user in user_service.read_users() if user['uid'] == user_id]
 
+  if user:
+    hospitalization = Hospitalization(user_id, date_init, date_finish)
+    hospitalization_service = HospitalizationService(ctx.obj['hospitalizations_table'])
+
+    hospitalization_service.create_hospitalization(hospitalization)
+
+  else:
+    click.echo('Id de usuario no valido...')
+    
 
 @hospitalizations.command()
 @click.pass_context
