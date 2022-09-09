@@ -50,6 +50,25 @@ def read(ctx):
       user_id=clinic_history['user_id'],
     ))
 
+@clinic_histories.command()
+@click.argument('user_id', type=str)
+@click.pass_context
+def get_clinic_history_by_user_id(ctx, user_id):
+  """Lee todas las historias clinicas"""
+  clinic_history_service = ClinicHistoryService(ctx.obj['clinic_histories_table'])
+
+  clinic_histories = clinic_history_service.read_clinic_histories()
+
+  clinic_history_by_user_id = [clinic_history_by_user_id for clinic_history_by_user_id in clinic_histories if clinic_history_by_user_id['user_id'] == user_id]
+
+  click.echo('ID | UserId')
+  click.echo('-' * 80) 
+  for clinic_history in clinic_history_by_user_id:
+    click.echo('{uid} | {user_id}'.format(
+      uid=clinic_history['uid'],
+      user_id=clinic_history['user_id'],
+    ))
+
 
 @clinic_histories.command()
 @click.argument('clinic_history_uid', type=str)
