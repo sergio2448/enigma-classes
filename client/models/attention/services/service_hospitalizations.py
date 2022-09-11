@@ -2,7 +2,7 @@ from client.common.services import CRUDService
 from client.models.attention.hospitalizations import Hospitalization
 
 class HospitalizationService(CRUDService):
-
+  """HospitalizationService personaliza el crud de la clase Hospitalization, en table_name recibimos el nombre del csv que almacenará los datos"""
   def __init__(self, table_name):
     super().__init__(table_name)
 
