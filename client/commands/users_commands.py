@@ -35,10 +35,14 @@ def users():
               type=str,
               prompt=True,
               help='El estado del usuario')
+@click.option('-bt', '--blood_type',
+              type=str,
+              prompt=True,
+              help='Tipo de sangre del usuario')
 @click.pass_context
-def create(ctx, name, email, cc, gender, eps, state):
+def create(ctx, name, email, cc, gender, eps, state, blood_type):
   """Crea un nuevo usuario"""
-  user = User(name, email, cc, gender, eps, state)
+  user = User(name, email, cc, gender, eps, state, blood_type)
   user_service = UserService(ctx.obj['users_table'])
 
   user_service.create_user(user)
@@ -52,17 +56,18 @@ def read(ctx):
 
   users = user_service.read_users()
 
-  click.echo('ID | Name | Email | CC | Gender | EPS | State')
+  click.echo('ID | Name | Email | CC | Gender | EPS | State | BloodType')
   click.echo('-' * 80)
   for user in users:
-    click.echo('{uid} | {name} | {email} | {cc} | {state}'.format(
+    click.echo('{uid} | {name} | {email} | {cc} | {state} | {blood_type}'.format(
       uid=user['uid'],
       name=user['name'],
       email=user['email'],
       cc=user['cc'],
       gender=user['gender'],
       eps=user['eps'],
-      state=user['state']
+      state=user['state'],
+      blood_type=user['blood_type']
     ))
 
 
