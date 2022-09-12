@@ -4,9 +4,11 @@ from client.models.clinic_history.service_clinic_history import ClinicHistorySer
 from client.models.clinic_history.clinic_history import ClinicHistory
 from client.models.people.services.service_users import UserService
 from client.models.attention.services.service_appointments import AppointmentService
+from client.models.attention.services.service_hospitalizations import HospitalizationService
 
 USERS_TABLE = '.users.csv'
 APPOINTMENTS_TABLE = '.appointments.csv'
+HOSPITALIZATIONS_TABLE = '.hospitalizations.csv'
 
 @click.group()
 def clinic_histories():
@@ -29,9 +31,12 @@ def create(ctx, user_id):
   appointment_service = AppointmentService(APPOINTMENTS_TABLE)
   appointments = [appointment for appointment in appointment_service.read_appointments() if appointment['user_id'] == user_id]
 
+  hospitalization_service = HospitalizationService(HOSPITALIZATIONS_TABLE)
+  hospitalizations = [hospitalization for hospitalization in hospitalization_service.read_hospitalizations() if hospitalization['user_id'] == user_id]
+
 
   if user:
-    clinic_history = ClinicHistory(user_id, user, appointments)
+    clinic_history = ClinicHistory(user_id, user, appointments, hospitalizations)
     clinic_history_service = ClinicHistoryService(ctx.obj['clinic_histories_table'])
 
     clinic_history_service.create_clinic_history(clinic_history)
@@ -47,14 +52,15 @@ def read(ctx):
 
   clinic_histories = clinic_history_service.read_clinic_histories()
 
-  click.echo('ID | UserId | UserInfo | Appointments')
+  click.echo('ID | UserId | UserInfo | Appointments | Hospitalizations')
   click.echo('-' * 80)
   for clinic_history in clinic_histories:
-    click.echo('{uid} | {user_id} | {user} | {appointments}'.format(
+    click.echo('{uid} | {user_id} | {user} | {appointments} | {hospitalizations}'.format(
       uid=clinic_history['uid'],
       user_id=clinic_history['user_id'],
-      user=clinic_history['user'],
-      appointments=clinic_history['appointments']
+      user=clinic_history['user_info'],
+      appointments=clinic_history['appointments'],
+      hospitalizations=clinic_history['hospitalizations']
     ))
 
 @clinic_histories.command()
@@ -68,14 +74,15 @@ def get_clinic_history_by_user_id(ctx, user_id):
 
   clinic_history_by_user_id = [clinic_history_by_user_id for clinic_history_by_user_id in clinic_histories if clinic_history_by_user_id['user_id'] == user_id]
 
-  click.echo('ID | UserId | UserInfo | Appointments')
+  click.echo('ID | UserId | UserInfo | Appointments | Hospitalizations')
   click.echo('-' * 80) 
   for clinic_history in clinic_history_by_user_id:
-    click.echo('{uid} | {user_id} | {user} | {appointments}'.format(
+    click.echo('{uid} | {user_id} | {user} | {appointments} | {hospitalizations}'.format(
       uid=clinic_history['uid'],
       user_id=clinic_history['user_id'],
       user=clinic_history['user_info'],
-      appointments=clinic_history['appointments']
+      appointments=clinic_history['appointments'],
+      hospitalizations=clinic_history['hospitalizations']
     ))
 
 
